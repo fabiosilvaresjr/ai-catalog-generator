@@ -10,25 +10,31 @@ class ProductController extends Controller
 {
     public function store(AiService $AiService)
     {
-        // to do: Request (do React).
-        $name = 'Mouse Sem Fio Ergonômico';
-        $category = 'Periféricos';
-        $base_description = 'Mouse vertical ergonômico com clique silencioso e conexão Bluetooth.';
+        // Validacao dos campos recebidos do front
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
+            'base_description' => 'required|string',
+        ]);
         
-        // Gemini gerando descricao (Variáveis 100% alinhadas)
-        $textoGeradoPelaIA = $AiService->gerarCatalogo($name, $category, $base_description);
+        // IA com dados validados dro front
+        $textoGeradoPelaIA = $aiService->gerarCatalogo(
+            $validated['name'], 
+            $validated['category'], 
+            $validated['base_description']
+        );
         
-        // Salvando no banco (Variáveis 100% alinhadas)
+        // Salvar no banco de dados
         $produto = Product::create([
-            'name' => $name,
-            'category' => $category,
-            'base_description' => $base_description,
+            'name' => $validated['name'],
+            'category' => $validated['category'],
+            'base_description' => $validated['base_description'],
             'ai_generated_catalog' => $textoGeradoPelaIA
         ]);
 
         return response()->json([
             'mensagem' => 'Sucesso! IA gerou o texto e o produto foi salvo.',
             'dados' => $produto
-        ]);
+        ], 201);
     }
 }

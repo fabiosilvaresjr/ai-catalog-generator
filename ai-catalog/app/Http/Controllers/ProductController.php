@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Services\GeminiService; 
+use App\Services\AiService; 
 
 class ProductController extends Controller
 {
-    public function store(GeminiService $geminiService)
+    public function store(AiService $AiService)
     {
         // to do: Request (do React).
         $name = 'Mouse Sem Fio Ergonômico';
@@ -16,7 +16,7 @@ class ProductController extends Controller
         $base_description = 'Mouse vertical ergonômico com clique silencioso e conexão Bluetooth.';
         
         // Gemini gerando descricao (Variáveis 100% alinhadas)
-        $textoGeradoPelaIA = $geminiService->gerarCatalogo($name, $category, $base_description);
+        $textoGeradoPelaIA = $AiService->gerarCatalogo($name, $category, $base_description);
         
         // Salvando no banco (Variáveis 100% alinhadas)
         $produto = Product::create([

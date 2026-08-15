@@ -8,7 +8,7 @@ use App\Services\AiService;
 
 class ProductController extends Controller
 {
-    public function store(AiService $AiService)
+    public function store(Request $request, AiService $aiService)
     {
         // Validacao dos campos recebidos do front
         $validated = $request->validate([

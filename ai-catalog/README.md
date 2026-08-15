@@ -35,15 +35,16 @@ O projeto está em evolução contínua. Abaixo estão meus passos já concluíd
 - [x] Pivotagem para motor de IA Local com Ollama.
 
 ### Fase 2: Front 
-- [x] Construção do Front-end (React ou interface fluida com Vanilla JS).
-- [ ] Integração Front/Back via Fetch API ou Axios.
-- [ ] Indicadores de carregamento (Loaders) enquanto a requisição HTTP é processada.
+- [x] Construção do Front-end (React).
+- [x] Integração Front/Back via Fetch API.
+- [x] Indicadores de carregamento (Loaders) e tratamento de erros visuais enquanto a requisição HTTP é processada.
 
 ### Fase 3: Ideias que quero implementar
 - [ ] **Filas (Queues & Jobs):** Transferir a chamada da IA para um processamento em background nativo do Laravel, liberando a resposta imediata para o usuário.
-- [ ] **Dashboard:** Criar uma listagem (GET) para exibir o histórico de todos os produtos gerados e salvos no PostgreSQL, provavelmente um CRUD completo com modelos.
-- [ ] **Autenticação:** Proteger o endpoint de criação de produtos utilizando Laravel Sanctum (adaptação à linguagem).
+- [ ] **Dashboard:** Criar uma listagem (GET) para exibir o histórico de todos os produtos gerados e salvos no PostgreSQL.
+- [ ] **Autenticação:** Proteger o endpoint de criação de produtos utilizando Laravel Sanctum.
 - [ ] **Refinamento da IA:** Manter a flexibilidade do `AiService` para alternar facilmente entre IA Local e provedores Cloud através de variáveis de ambiente.
+- [ ] **Aprimoramento do resultado:** Colocar forma de alterar o texto sugeido pela IA direto no resultado e conseguir copiar o texto mais fácil.
 
 ---
 *Projeto desenvolvido como portfólio técnico e roteiro prático de estudos.*

@@ -18,7 +18,7 @@ class ProductController extends Controller
         return response()->json($produtos, 200);
     }
 
-public function store(Request $request, AiService $aiService)
+    public function store(Request $request, AiService $aiService)
     {
         // Validacao dos campos recebidos do front
         $validated = $request->validate([
@@ -46,5 +46,19 @@ public function store(Request $request, AiService $aiService)
             'mensagem' => 'Sucesso! IA gerou o texto e o produto foi salvo.',
             'dados' => $produto
         ], 201);
+    }
+
+    // Deletar produto
+    public function destroy($id)
+    {
+        $produto = Product::find($id);
+
+        if (!$produto) {
+            return response()->json(['mensagem' => 'Produto não encontrado.'], 404);
+        }
+
+        $produto->delete();
+
+        return response()->json(['mensagem' => 'Produto deletado com sucesso!'], 200);
     }
 }

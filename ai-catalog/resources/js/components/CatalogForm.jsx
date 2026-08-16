@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
 
 export default function CatalogForm() {
+    // Estados
     const [formData, setFormData] = useState({
         name: '',
         category: '',
         base_description: ''
     });
 
-    // estados de controle de tela
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [editableText, setEditableText] = useState('');
+    const [copied, setCopied] = useState(false);
 
-    // Atualiza os dados do formulário conforme o usuário digita
+    // Handlers 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Função disparada ao clicar no botão de enviar
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
         setResult(null);
+        setCopied(false);
 
         try {
-            // Post
             const response = await fetch('/api/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json', // Avisa o Laravel que somos uma API
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(formData)
             });
@@ -41,25 +42,30 @@ export default function CatalogForm() {
                 throw new Error(data.message || 'Erro ao processar a requisição.');
             }
 
-            // salva dados
             setResult(data.dados);
-            
-            // Limpa o formulário
+            setEditableText(data.dados.ai_generated_catalog);
             setFormData({ name: '', category: '', base_description: '' });
 
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false); // Para o loader independentemente de dar erro ou sucesso
+            setLoading(false);
         }
     };
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(editableText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); 
+    };
+
+    //  HTML
     return (
         <div style={{ maxWidth: '600px', margin: '40px auto', fontFamily: 'sans-serif' }}>
             <h1 style={{ textAlign: 'center' }}>Gerador de Catálogo IA </h1>
             
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px', fontWeight: 'bold' }}>Nome do Produto:</label>
                     <input 
                         type="text" 
@@ -67,11 +73,11 @@ export default function CatalogForm() {
                         value={formData.name} 
                         onChange={handleChange} 
                         required 
-                        style={{ width: '100%', padding: '10px', marginTop: '5px', border: '1px solid #ccc', borderRadius: '4px' }}
+                        style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                     />
                 </div>
 
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px', fontWeight: 'bold' }}>Categoria:</label>
                     <input 
                         type="text" 
@@ -83,7 +89,7 @@ export default function CatalogForm() {
                     />
                 </div>
 
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px', fontWeight: 'bold' }}>Características Básicas:</label>
                     <textarea 
                         name="base_description" 
@@ -110,12 +116,12 @@ export default function CatalogForm() {
                         marginTop: '10px'
                     }}
                 >
-                    {loading ? 'Gerando texto... ⏳' : 'Gerar Catálogo'}
+                    {loading ? 'Gerando marketing...' : 'Gerar Catálogo'}
                 </button>
             </form>
 
             {error && (
-                <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#ffe6e6', color: '#d9534f', borderRadius: '4px' }}>
+                <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#ffe6e6', color: '#d9534f', border: '1px solid #d9534f', borderRadius: '4px' }}>
                     <strong>Erro:</strong> {error}
                 </div>
             )}
@@ -126,8 +132,42 @@ export default function CatalogForm() {
                     <p><strong>Produto:</strong> {result.name}</p>
                     <p><strong>Categoria:</strong> {result.category}</p>
                     <hr style={{ margin: '15px 0', borderColor: '#c3e6cb' }} />
-                    <h3 style={{ color: '#155724' }}>Descrição Otimizada:</h3>
-                    <p style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: '#333' }}>{result.ai_generated_catalog}</p>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <h3 style={{ color: '#155724', margin: 0 }}>Descrição Otimizada:</h3>
+                        <button 
+                            onClick={handleCopy}
+                            style={{
+                                padding: '6px 12px',
+                                backgroundColor: copied ? '#28a745' : '#6c757d',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                transition: 'background-color 0.3s'
+                            }}
+                        >
+                            {copied ? 'Copiado! ✓' : 'Copiar Texto'}
+                        </button>
+                    </div>
+
+                    <textarea 
+                        value={editableText}
+                        onChange={(e) => setEditableText(e.target.value)}
+                        rows="12"
+                        style={{ 
+                            width: '100%', 
+                            padding: '10px', 
+                            border: '1px solid #28a745', 
+                            borderRadius: '4px', 
+                            resize: 'vertical',
+                            fontFamily: 'inherit',
+                            fontSize: '15px',
+                            lineHeight: '1.6',
+                            color: '#333'
+                        }}
+                    />
                 </div>
             )}
         </div>

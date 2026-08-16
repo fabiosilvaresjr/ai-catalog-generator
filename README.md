@@ -26,10 +26,6 @@ Para contornar as instabilidades em provedores alterei a arquitetura para consum
 
 O projeto está em evolução contínua. Abaixo estão meus passos já concluídos e os próximos desafios arquiteturais e de interface:
 
-## Desenvolvimento e Roadmap
-
-O projeto está em evolução contínua. Abaixo estão as etapas concluídas e os próximos desafios arquiteturais, separados por áreas de conhecimento:
-
 ### Fases 1 e 2: Fundação e Integração Full-Stack
 - [x] Configuração de Banco de Dados, Migrations e Models (`Product`).
 - [x] Implementação de Service Pattern e Tratamento de Exceções.
@@ -42,7 +38,7 @@ O projeto está em evolução contínua. Abaixo estão as etapas concluídas e o
 - [x] **Exclusão de Registros:** Rota de DELETE e atualização de estado no React para remover catálogos indesejados.
 
 ### Fase 4: Qualidade e Performance (Próximos Passos)
-- [ ] **Filtros e Buscas:** Adicionar barra de pesquisa no Dashboard rodando em tempo real no Front-end (Filtro JS).
+- [x] **Filtros e Buscas:** Adicionar barra de pesquisa no Dashboard rodando em tempo real no Front-end (Filtro JS).
 - [ ] **Testes Automatizados (PHPUnit / Pest):** Implementar testes unitários e de integração (testando endpoints REST e "Mockando" o serviço de IA).
 - [ ] **Filas (Queues & Jobs):** Transferir a chamada da IA para processamento em background (Redis/Database), liberando a tela do usuário imediatamente.
 
@@ -51,11 +47,13 @@ O projeto está em evolução contínua. Abaixo estão as etapas concluídas e o
 - [ ] **Home Lab e Deploy:** Configurar túneis seguros, pensando em Cloudflare Tunnels, para expor a aplicação local com o Ollama para a internet. Ou hospedar em servidor próprio.
 - [ ] **Flexibilidade de Providers:** Refatorar o `AiService` para aceitar múltiplas IAs (Local ou Cloud) alternáveis via `.env`.
 
-## Interface atual (atualizado em 15/08/26)
+## Interface atual (atualizado em 16/08/2026)
 
 ![Formulário](images/Formulario.png)
-![Tela com resultado](images/TelaComResultado.png)
-![Resultado do marketing](images/DescricaoGerada.png)
+![Formulário Processando IA](images/FormularioGerando.png)
+![Tela com Resultado](images/TelaComResultado.png)
+![Dashboard de Histórico](images/HistoricoDashboard.png)
+![Pesquisa no Dashboard](images/PesquisaDashboard.png)
 
 ---
 *Projeto desenvolvido como portfólio técnico e roteiro prático de estudos.*

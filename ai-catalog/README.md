@@ -46,5 +46,11 @@ O projeto está em evolução contínua. Abaixo estão meus passos já concluíd
 - [ ] **Refinamento da IA:** Manter a flexibilidade do `AiService` para alternar facilmente entre IA Local e provedores Cloud através de variáveis de ambiente.
 - [ ] **Aprimoramento do resultado:** Colocar forma de alterar o texto sugeido pela IA direto no resultado e conseguir copiar o texto mais fácil.
 
+## Interface atual (atualizado em 15/08/26)
+
+![Formulário](images/Formulario.png)
+![Tela com resultado](images/TelaComResultado.png)
+![Resultado do marketing](images/DescricaoGerada.png)
+
 ---
 *Projeto desenvolvido como portfólio técnico e roteiro prático de estudos.*

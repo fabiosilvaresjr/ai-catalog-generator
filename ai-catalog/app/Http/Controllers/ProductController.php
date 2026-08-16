@@ -8,7 +8,17 @@ use App\Services\AiService;
 
 class ProductController extends Controller
 {
-    public function store(Request $request, AiService $aiService)
+
+// metodo de listagem
+    public function index()
+    {
+        // busca do banco
+        $produtos = Product::orderBy('created_at', 'desc')->get();
+
+        return response()->json($produtos, 200);
+    }
+
+public function store(Request $request, AiService $aiService)
     {
         // Validacao dos campos recebidos do front
         $validated = $request->validate([

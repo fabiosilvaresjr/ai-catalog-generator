@@ -19,6 +19,8 @@
     "dependencies": {
         "@vitejs/plugin-react": "^6.0.5",
         "react": "^19.2.8",
-        "react-dom": "^19.2.8"
+        "react-dom": "^19.2.8",
+        "react-hot-toast": "^2.6.0",
+        "sweetalert2": "^11.26.25"
     }
 }

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 export default function Dashboard() {
     // Estados
@@ -30,9 +32,20 @@ export default function Dashboard() {
 
     // Deleta produto
     const handleDelete = async (id) => {
-        
-        const confirmar = window.confirm("Tem certeza que deseja excluir este catálogo?");
+        const result = await Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá reverter a exclusão deste catálogo!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar'
+        });
         if (!confirmar) return;
+
+        // Guarda o ID dele
+        const toastId = toast.loading('Excluindo do banco de dados...');
 
         try {
             const response = await fetch(`/api/products/${id}`, {
@@ -41,12 +54,14 @@ export default function Dashboard() {
 
             if (!response.ok) throw new Error('Erro ao deletar produto.');
 
-            
-            // reorganiza lsita sem o produto deletado
             setProducts(products.filter(product => product.id !== id));
+            
+            // Deletou com sucesso
+            toast.success('Catálogo excluído com sucesso!', { id: toastId });
 
         } catch (err) {
-            alert(err.message);
+            // Se der errado
+            toast.error(err.message, { id: toastId });
         }
     };
 

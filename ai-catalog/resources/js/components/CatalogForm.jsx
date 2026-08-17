@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function CatalogForm() {
     // Estados
@@ -10,7 +11,6 @@ export default function CatalogForm() {
 
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
-    const [error, setError] = useState(null);
     const [editableText, setEditableText] = useState('');
     const [copied, setCopied] = useState(false);
 
@@ -22,9 +22,10 @@ export default function CatalogForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
         setResult(null);
         setCopied(false);
+
+        const toastId = toast.loading('A IA está escrevendo sua copy...');
 
         try {
             const response = await fetch('/api/products', {
@@ -46,8 +47,10 @@ export default function CatalogForm() {
             setEditableText(data.dados.ai_generated_catalog);
             setFormData({ name: '', category: '', base_description: '' });
 
+            toast.success('Catálogo gerado com sucesso!', { id: toastId });
+
         } catch (err) {
-            setError(err.message);
+            toast.error(err.message);
         } finally {
             setLoading(false);
         }
@@ -56,23 +59,20 @@ export default function CatalogForm() {
     const handleCopy = () => {
         navigator.clipboard.writeText(editableText);
         setCopied(true);
+        toast.success('Texto copiado para a área de transferência!');
         setTimeout(() => setCopied(false), 2000); 
     };
 
     //  HTML
     return (
         <div style={{ maxWidth: '600px', margin: '40px auto', fontFamily: 'sans-serif' }}>
-            <h1 style={{ textAlign: 'center' }}>Gerador de Catálogo IA </h1>
+            <h1 style={{ textAlign: 'center' }}>Gerador de Catálogo IA</h1>
             
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px', fontWeight: 'bold' }}>Nome do Produto:</label>
                     <input 
-                        type="text" 
-                        name="name" 
-                        value={formData.name} 
-                        onChange={handleChange} 
-                        required 
+                        type="text" name="name" value={formData.name} onChange={handleChange} required 
                         style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                     />
                 </div>
@@ -80,11 +80,7 @@ export default function CatalogForm() {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px', fontWeight: 'bold' }}>Categoria:</label>
                     <input 
-                        type="text" 
-                        name="category" 
-                        value={formData.category} 
-                        onChange={handleChange} 
-                        required 
+                        type="text" name="category" value={formData.category} onChange={handleChange} required 
                         style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                     />
                 </div>
@@ -92,43 +88,25 @@ export default function CatalogForm() {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <label style={{ marginBottom: '5px', fontWeight: 'bold' }}>Características Básicas:</label>
                     <textarea 
-                        name="base_description" 
-                        value={formData.base_description} 
-                        onChange={handleChange} 
-                        required 
-                        rows="4"
+                        name="base_description" value={formData.base_description} onChange={handleChange} required rows="4"
                         style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', resize: 'vertical' }}
                     />
                 </div>
 
                 <button 
-                    type="submit" 
-                    disabled={loading}
+                    type="submit" disabled={loading}
                     style={{ 
-                        padding: '12px', 
-                        backgroundColor: loading ? '#ccc' : '#007BFF', 
-                        color: '#fff', 
-                        border: 'none', 
-                        borderRadius: '4px',
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                        fontWeight: 'bold',
-                        fontSize: '16px',
-                        marginTop: '10px'
+                        padding: '12px', backgroundColor: loading ? '#ccc' : '#007BFF', color: '#fff', border: 'none', 
+                        borderRadius: '4px', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 'bold', fontSize: '16px', marginTop: '10px'
                     }}
                 >
-                    {loading ? 'Gerando marketing...' : 'Gerar Catálogo'}
+                    {loading ? 'Gerando Marketing... ' : 'Gerar Catálogo'}
                 </button>
             </form>
 
-            {error && (
-                <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#ffe6e6', color: '#d9534f', border: '1px solid #d9534f', borderRadius: '4px' }}>
-                    <strong>Erro:</strong> {error}
-                </div>
-            )}
-
             {result && (
                 <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#eefcf5', border: '1px solid #28a745', borderRadius: '4px' }}>
-                    <h2 style={{ marginTop: 0, color: '#155724' }}>Catálogo Gerado com Sucesso! ✅</h2>
+                    <h2 style={{ marginTop: 0, color: '#155724' }}>Catálogo Gerado! ✅</h2>
                     <p><strong>Produto:</strong> {result.name}</p>
                     <p><strong>Categoria:</strong> {result.category}</p>
                     <hr style={{ margin: '15px 0', borderColor: '#c3e6cb' }} />
@@ -138,14 +116,8 @@ export default function CatalogForm() {
                         <button 
                             onClick={handleCopy}
                             style={{
-                                padding: '6px 12px',
-                                backgroundColor: copied ? '#28a745' : '#6c757d',
-                                color: '#fff',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                transition: 'background-color 0.3s'
+                                padding: '6px 12px', backgroundColor: copied ? '#28a745' : '#6c757d', color: '#fff',
+                                border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', transition: 'background-color 0.3s'
                             }}
                         >
                             {copied ? 'Copiado! ✓' : 'Copiar Texto'}
@@ -153,20 +125,8 @@ export default function CatalogForm() {
                     </div>
 
                     <textarea 
-                        value={editableText}
-                        onChange={(e) => setEditableText(e.target.value)}
-                        rows="12"
-                        style={{ 
-                            width: '100%', 
-                            padding: '10px', 
-                            border: '1px solid #28a745', 
-                            borderRadius: '4px', 
-                            resize: 'vertical',
-                            fontFamily: 'inherit',
-                            fontSize: '15px',
-                            lineHeight: '1.6',
-                            color: '#333'
-                        }}
+                        value={editableText} onChange={(e) => setEditableText(e.target.value)} rows="12"
+                        style={{ width: '100%', padding: '10px', border: '1px solid #28a745', borderRadius: '4px', resize: 'vertical', fontFamily: 'inherit', fontSize: '15px', lineHeight: '1.6', color: '#333' }}
                     />
                 </div>
             )}

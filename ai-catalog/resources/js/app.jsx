@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Toaster } from 'react-hot-toast';
 import CatalogForm from './components/CatalogForm';
 import Dashboard from './components/Dashboard';
 
@@ -9,6 +10,7 @@ function App() {
 
     return (
         <div>
+            <Toaster position="bottom-right" reverseOrder={false} />
             {/* Barra de Navegação */}
             <nav style={{ 
                 backgroundColor: '#333', 

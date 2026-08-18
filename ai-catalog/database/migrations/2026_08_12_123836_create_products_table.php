@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); 
-            $table->string('category'); 
-            $table->text('base_description'); 
-            $table->text('ai_generated_catalog')->nullable();
+            $table->string('name');
+            $table->string('category');
+            $table->text('features'); // Características do produto
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }
-
     
     // Reverse the migrations.
      

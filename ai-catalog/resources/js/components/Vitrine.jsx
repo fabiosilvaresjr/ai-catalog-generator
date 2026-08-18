@@ -32,7 +32,7 @@ export default function Vitrine() {
                 
                 {/* Cabeçalho da Loja */}
                 <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-                    <h1 style={{ color: '#2E4032', fontSize: '36px', margin: '0 0 10px 0' }}>Tereré Store 🌿</h1>
+                    <h1 style={{ color: '#2E4032', fontSize: '36px', margin: '0 0 10px 0' }}>Terere_cb 🌿</h1>
                     <p style={{ color: '#666', fontSize: '18px' }}>A tradição do campo direto para a sua garrafa.</p>
                 </div>
 

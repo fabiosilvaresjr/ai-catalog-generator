@@ -42,7 +42,7 @@ export default function Dashboard() {
             confirmButtonText: 'Sim, excluir!',
             cancelButtonText: 'Cancelar'
         });
-        if (!confirmar) return;
+        if (!result.isConfirmed) return;
 
         // Guarda o ID dele
         const toastId = toast.loading('Excluindo do banco de dados...');

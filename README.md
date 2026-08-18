@@ -22,9 +22,9 @@ Inicialmente tentei usar API do gemini de Inteligência Artificial para geraçã
 
 Para contornar as instabilidades em provedores alterei a arquitetura para consumir LLM local diretamente pelo *Ollama*. Resultou em disponibilidade offline e manteve o Service Pattern limpo e extensível, sem ter problemas futuros com tokens.
 
-## Desenvolvimento
+## Desenvolvimento e Roadmap
 
-O projeto está em evolução contínua. Abaixo estão meus passos já concluídos e os próximos desafios arquiteturais e de interface:
+O projeto está em evolução contínua. Abaixo estão as etapas concluídas e os próximos desafios arquiteturais, separados por áreas de conhecimento:
 
 ### Fases 1 e 2: Fundação e Integração Full-Stack
 - [x] Configuração de Banco de Dados, Migrations e Models (`Product`).
@@ -44,8 +44,25 @@ O projeto está em evolução contínua. Abaixo estão meus passos já concluíd
 
 ### Fase 5: Segurança e Infraestrutura
 - [ ] **Autenticação (Laravel Sanctum):** Proteger as rotas de criação e exclusão, garantindo que apenas usuários logados alterem os catálogos.
+- [ ] **Controle de Acesso (ACL/Roles):** Criar sistema de permissões hierárquicas (Visitante, Funcionário e Administrador) para controle de visualização e edição.
 - [ ] **Home Lab e Deploy:** Configurar túneis seguros, pensando em Cloudflare Tunnels, para expor a aplicação local com o Ollama para a internet. Ou hospedar em servidor próprio.
 - [ ] **Flexibilidade de Providers:** Refatorar o `AiService` para aceitar múltiplas IAs (Local ou Cloud) alternáveis via `.env`.
+
+### Fase 6: Expansão SaaS B2B (Visão de Produto Real)
+- [x] **Vitrine Pública:** Criar uma interface de e-commerce separada do painel administrativo para simular a loja virtual do cliente final.
+- [ ] **Exportação em PDF:** Implementar geração de arquivos PDF das descrições para envio ágil via WhatsApp.
+- [ ] **Dashboard Gerencial:** Adicionar gráficos (Chart.js ou Recharts) no painel para controle de métricas e volume de produtos cadastrados.
+- [ ] **Funil de Vendas (Checkout/Contato):** Criar sistema de carrinho na Vitrine Pública integrado com captura de e-mail e número (WhatsApp) para facilitar o fechamento de vendas.
+
+### Fase 7: Inteligência Artificial Avançada e Arquitetura de Dados
+- [ ] **CRUD Base de Produtos:** Separar o cadastro físico do produto (Nome, Categoria, Imagem) da geração de marketing, permitindo gerenciar o estoque independentemente.
+- [ ] **Múltiplas Copys de Marketing:** Permitir que um único produto tenha várias descrições geradas pela IA (ex: versão curta para Instagram, versão longa para o site).
+- [ ] **Suporte a Imagens:** Adicionar upload de fotos (`Storage` do Laravel) e exibição dinâmica na Vitrine Pública.
+- [ ] **IA com Visão Computacional:** Integrar um modelo de visão (ex: *LLaVA*) para analisar a foto enviada pelo usuário, auto-preencher os dados do produto e gerar um marketing ainda mais assertivo baseado na imagem.
+
+### Fase 8: Inbound Marketing e Comunidade (Blog)
+- [ ] **Gerenciador de Artigos:** Criar um painel (CMS) para o lojista publicar conteúdos otimizados para SEO (ex: história do produto, tutoriais de uso).
+- [ ] **Interação e Moderação:** Implementar sistema de comentários e dúvidas na Vitrine Pública, exigindo aprovação no painel administrativo antes da exibição.
 
 ## Interface atual (atualizado em 16/08/2026)
 

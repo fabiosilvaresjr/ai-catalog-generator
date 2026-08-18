@@ -71,8 +71,10 @@ export default function Vitrine() {
                                     <div style={{ 
                                         fontSize: '15px', color: '#4a5568', lineHeight: '1.6', 
                                         flexGrow: 1, marginBottom: '20px',
-                                        // Truque CSS para cortar o texto se for muito grande (ellipsis)
-                                        display: '-webkit-box', WebkitLineClamp: '4', WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                                        maxHeight: '120px', // média de 5 linhas
+                                        overflowY: 'auto',  // barra de rolagem vertical
+                                        paddingRight: '5px', // espaço da barra
+                                        whiteSpace: 'pre-wrap' // formatacao texto
                                     }}>
                                         {product.ai_generated_catalog}
                                     </div>

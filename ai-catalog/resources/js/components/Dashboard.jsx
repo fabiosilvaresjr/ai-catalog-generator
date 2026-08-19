@@ -109,7 +109,14 @@ export default function Dashboard() {
                         }}>
                     
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
-                                <h3 style={{ margin: 0, color: '#007BFF', fontSize: '18px' }}>{product.name}</h3>
+                                {/* Título com fundo transparente e borda */}
+                                <h3 style={{ 
+                                    margin: 0, color: '#2b6cb0', fontSize: '18px', 
+                                    backgroundColor: '#f0f7ff', padding: '5px 10px', 
+                                    borderRadius: '4px', border: '1px solid #bee3f8' 
+                                }}>
+                                    {product.name}
+                                </h3>
                                 
                                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                                     <span style={{ backgroundColor: '#e9ecef', padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold', color: '#495057' }}>
@@ -131,7 +138,7 @@ export default function Dashboard() {
                             </div>
                             
                             <p style={{ fontSize: '13px', color: '#666', marginBottom: '15px', fontStyle: 'italic' }}>
-                                "{product.base_description}"
+                                "{product.features}"
                             </p>
                             
                             <div style={{ 

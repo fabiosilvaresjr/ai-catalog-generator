@@ -64,7 +64,12 @@ export default function Vitrine() {
                                         {product.category}
                                     </span>
                                     
-                                    <h3 style={{ margin: '0 0 15px 0', color: '#1a202c', fontSize: '22px' }}>
+                                    {/* Título com fundo */}
+                                    <h3 style={{ 
+                                        margin: '0 0 15px 0', color: '#1a202c', fontSize: '18px',
+                                        backgroundColor: '#f7fafc', padding: '8px 12px', 
+                                        borderRadius: '4px', border: '1px solid #e2e8f0'
+                                    }}>
                                         {product.name}
                                     </h3>
                                     

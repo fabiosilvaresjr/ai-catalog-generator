@@ -108,29 +108,30 @@ export default function Dashboard() {
                             display: 'flex', flexDirection: 'column'
                         }}>
                     
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
-                                {/* Título com fundo transparente e borda */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                                
                                 <h3 style={{ 
                                     margin: 0, color: '#2b6cb0', fontSize: '18px', 
-                                    backgroundColor: '#f0f7ff', padding: '5px 10px', 
-                                    borderRadius: '4px', border: '1px solid #bee3f8' 
+                                    fontWeight: '700', lineHeight: '1.3', paddingRight: '15px'
                                 }}>
                                     {product.name}
                                 </h3>
                                 
-                                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                                    <span style={{ backgroundColor: '#e9ecef', padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold', color: '#495057' }}>
+                                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexShrink: 0 }}>
+                                    <span style={{ backgroundColor: '#edf2f7', padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold', color: '#4a5568' }}>
                                         {product.category}
                                     </span>
                                     
                                     <button 
                                         onClick={() => handleDelete(product.id)}
                                         style={{
-                                            backgroundColor: '#dc3545', color: '#fff', border: 'none',
-                                            borderRadius: '4px', padding: '4px 8px', cursor: 'pointer',
-                                            fontSize: '12px', fontWeight: 'bold'
+                                            backgroundColor: '#fc8181', color: '#fff', border: 'none',
+                                            borderRadius: '6px', padding: '6px 10px', cursor: 'pointer',
+                                            fontSize: '14px', transition: 'background-color 0.2s'
                                         }}
                                         title="Excluir"
+                                        onMouseOver={(e) => e.target.style.backgroundColor = '#e53e3e'}
+                                        onMouseOut={(e) => e.target.style.backgroundColor = '#fc8181'}
                                     >
                                         🗑️
                                     </button>

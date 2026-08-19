@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
-import CatalogForm from './components/CatalogForm';
+import ProductForm from './components/ProductForm'; 
 import Dashboard from './components/Dashboard';
 import Vitrine from './components/Vitrine';
+import MarketingManager from './components/MarketingManager'; 
 
 function App() {
-    // 3 estados: 'form', 'dashboard' ou 'vitrine'
-    const [currentScreen, setCurrentScreen] = useState('vitrine'); //tela inicial
+    // tela aberta
+    const [currentScreen, setCurrentScreen] = useState('form'); 
+    
+    // produto
+    const [selectedProductForMarketing, setSelectedProductForMarketing] = useState(null);
+
+    // quando cria o produto
+    const handleProductCreated = (novoProduto) => {
+        setSelectedProductForMarketing(novoProduto); // novo
+        setCurrentScreen('marketing');               // ja cadastrado
+    };
 
     return (
         <div>
@@ -15,17 +25,14 @@ function App() {
 
             {/* Barra de Navegação */}
             <nav style={{ 
-                backgroundColor: '#1a202c', 
-                padding: '0 30px', 
-                display: 'flex', 
-                justifyContent: 'space-between', // Separa a esquerda da direita
-                alignItems: 'center',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-                minHeight: '60px'
+                backgroundColor: '#1a202c', padding: '0 30px', display: 'flex', 
+                justifyContent: 'space-between', alignItems: 'center',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)', minHeight: '60px'
             }}>
                 
                 {/* Lado Esquerdo: Área Administrativa */}
                 <div style={{ display: 'flex', gap: '20px', height: '100%' }}>
+                    {/* Estoque */}
                     <button 
                         onClick={() => setCurrentScreen('form')}
                         style={{
@@ -35,8 +42,23 @@ function App() {
                             padding: '20px 0'
                         }}
                     >
-                        Gerador de marketing
+                        Cadastrar Estoque
                     </button>
+
+                    {/* Marketing Automatizado */}
+                    <button 
+                        onClick={() => setCurrentScreen('marketing')}
+                        style={{
+                            backgroundColor: 'transparent', color: currentScreen === 'marketing' ? '#d69e2e' : '#a0aec0', // Cor diferente (amarelo) pra destacar a IA
+                            border: 'none', fontSize: '15px', fontWeight: 'bold', cursor: 'pointer',
+                            borderBottom: currentScreen === 'marketing' ? '3px solid #d69e2e' : '3px solid transparent',
+                            padding: '20px 0'
+                        }}
+                    >
+                        Marketing Automatizado
+                    </button>
+
+                    {/* Dashboard */}
                     <button 
                         onClick={() => setCurrentScreen('dashboard')}
                         style={{
@@ -64,9 +86,14 @@ function App() {
                 </button>
             </nav>
 
-            {/* Renderização condicional das 3 telas */}
+            {/* Renderização condicional das telas */}
             <main style={{ padding: currentScreen === 'vitrine' ? '0' : '20px' }}>
-                {currentScreen === 'form' && <CatalogForm />}
+                {/* Form avisar quando terminar */}
+                {currentScreen === 'form' && <ProductForm onProductCreated={handleProductCreated} />}
+                
+                {/* Os dados do produto para a IA usar */}
+                {currentScreen === 'marketing' && <MarketingManager selectedProduct={selectedProductForMarketing} />}
+                
                 {currentScreen === 'dashboard' && <Dashboard />}
                 {currentScreen === 'vitrine' && <Vitrine />}
             </main>

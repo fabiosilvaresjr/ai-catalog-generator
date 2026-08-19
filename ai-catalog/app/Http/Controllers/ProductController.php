@@ -4,51 +4,58 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Services\AiService; 
 
 class ProductController extends Controller
 {
-
-// metodo de listagem
+    // GET
     public function index()
     {
-        // busca do banco
-        $produtos = Product::orderBy('created_at', 'desc')->get();
-
+        $produtos = Product::with('marketingCopys')->orderBy('created_at', 'desc')->get();
         return response()->json($produtos, 200);
     }
 
-    public function store(Request $request, AiService $aiService)
+    // CRIAR
+    public function store(Request $request)
     {
-        // Validacao dos campos recebidos do front
         $validated = $request->validate([
-            'name' => 'required|string',
-            'category' => 'required|string',
-            'base_description' => 'required|string',
-        ]);
-        
-        // IA com dados validados dro front
-        $textoGeradoPelaIA = $aiService->gerarCatalogo(
-            $validated['name'], 
-            $validated['category'], 
-            $validated['base_description']
-        );
-        
-        // Salvar no banco de dados
-        $produto = Product::create([
-            'name' => $validated['name'],
-            'category' => $validated['category'],
-            'base_description' => $validated['base_description'],
-            'ai_generated_catalog' => $textoGeradoPelaIA
+            'name' => 'required|string|max:255',
+            'category' => 'required|string|max:100',
+            'features' => 'required|string',
+            'image_path' => 'nullable|string'
         ]);
 
+        $produto = Product::create($validated);
+
         return response()->json([
-            'mensagem' => 'Sucesso! IA gerou o texto e o produto foi salvo.',
+            'mensagem' => 'Produto cadastrado no estoque com sucesso!',
             'dados' => $produto
         ], 201);
     }
 
-    // Deletar produto
+    // ATUALIZAR
+    public function update(Request $request, $id)
+    {
+        $produto = Product::find($id);
+
+        if (!$produto) {
+            return response()->json(['mensagem' => 'Produto não encontrado.'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'category' => 'sometimes|string|max:100',
+            'features' => 'sometimes|string',
+        ]);
+
+        $produto->update($validated);
+
+        return response()->json([
+            'mensagem' => 'Produto atualizado com sucesso!',
+            'dados' => $produto
+        ], 200);
+    }
+
+    // DELETAR
     public function destroy($id)
     {
         $produto = Product::find($id);
@@ -59,6 +66,6 @@ class ProductController extends Controller
 
         $produto->delete();
 
-        return response()->json(['mensagem' => 'Produto deletado com sucesso!'], 200);
+        return response()->json(['mensagem' => 'Produto deletado do estoque com sucesso!'], 200);
     }
 }
